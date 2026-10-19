@@ -19,6 +19,7 @@
       --text-dark-grey: #52525b;
       --text-charcoal: #27272a;
       --accent-steel: #a1a1aa;
+      --neon-hue: 220;
     }
 
     * {
@@ -83,7 +84,7 @@
         linear-gradient(180deg, rgba(5, 5, 6, 0.6) 0%, transparent 20%, transparent 80%, rgba(5, 5, 6, 0.92) 100%);
     }
 
-    /* Top Minimal Header Inspired by Presentation Frame */
+    /* Top Minimal Header */
     .navbar {
       position: fixed;
       top: 0;
@@ -140,17 +141,6 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .nav-center-emblem {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-dark-grey);
-    }
-
     .nav-links {
       display: flex;
       align-items: center;
@@ -190,7 +180,6 @@
       pointer-events: auto;
     }
 
-    /* Monochrome Grey-Black Status Pill */
     .eyebrow-badge {
       display: inline-flex;
       align-items: center;
@@ -225,7 +214,6 @@
       50% { opacity: 1; transform: scale(1.2); }
     }
 
-    /* Big Name Typography — Grey-Black Metallic (No Colorful Gradient) */
     .hero-name {
       font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(2.6rem, 5.2vw, 4.9rem);
@@ -255,7 +243,6 @@
       filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.95));
     }
 
-    /* Profession Pills */
     .hero-professions {
       display: flex;
       flex-wrap: wrap;
@@ -291,7 +278,6 @@
       user-select: none;
     }
 
-    /* Tagline — Monochrome Grey-Black */
     .hero-tagline {
       font-size: clamp(1.05rem, 1.45vw, 1.32rem);
       font-weight: 400;
@@ -313,7 +299,6 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Action Buttons */
     .hero-cta-group {
       display: flex;
       flex-wrap: wrap;
@@ -668,29 +653,6 @@
       color: #52525b;
     }
 
-    @media (max-width: 1024px) {
-      .navbar {
-        padding: 1rem 1.5rem;
-      }
-      .nav-center-emblem {
-        display: none;
-      }
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 6.5rem 1.5rem 5rem;
-      }
-      .hero-stage-ui {
-        min-height: 320px;
-        align-items: flex-start;
-      }
-      .content-section {
-        padding: 4rem 1.5rem;
-      }
-      .audio-studio-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
     /* 04 / Edit Lagu - Roblox Audio Bypass Studio Styles */
     .audio-studio-panel {
       margin-top: 3.5rem;
@@ -751,7 +713,7 @@
 
     .audio-studio-grid {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1.12fr 0.88fr;
       gap: 2rem;
       align-items: stretch;
     }
@@ -759,17 +721,16 @@
     .upload-dropzone {
       border: 1.5px dashed rgba(113, 113, 122, 0.45);
       border-radius: 10px;
-      padding: 2rem 1.5rem;
+      padding: 1.15rem 1.25rem;
       text-align: center;
       background: rgba(12, 12, 15, 0.75);
       transition: all 0.3s ease;
       cursor: pointer;
       position: relative;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 170px;
+      gap: 1rem;
     }
 
     .upload-dropzone:hover,
@@ -786,19 +747,305 @@
       cursor: pointer;
     }
 
-    .visualizer-box {
-      margin-top: 1.25rem;
-      background: #070709;
-      border: 1px solid rgba(63, 63, 70, 0.45);
-      border-radius: 8px;
-      padding: 0.85rem;
+    /* ==========================================================================
+       NEW 3D FLOATING NEON BREAKBEAT VISUALIZER STAGE (VIDEO 2 STYLE)
+       ========================================================================== */
+    .visualizer-stage {
+      margin-top: 1.1rem;
+      background: #020205;
+      border: 1px solid rgba(113, 113, 122, 0.38);
+      border-radius: 12px;
+      height: 350px;
+      position: relative;
+      overflow: hidden;
+      perspective: 950px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.95), 0 16px 40px rgba(0, 0, 0, 0.8);
+      user-select: none;
+    }
+
+    /* Dynamic Plasma Nebula & Particles Background Canvas */
+    #stage-bg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 3D Tilted Floating Card Wrapper */
+    .floating-card-3d-wrap {
+      position: relative;
+      z-index: 4;
+      width: 88%;
+      max-width: 470px;
+      transform-style: preserve-3d;
+      transform: rotateY(-13deg) rotateX(6deg) translateY(-16px) scale(0.96);
+      transition: transform 0.08s ease-out;
+      will-change: transform;
+    }
+
+    /* Intro swoop animation like 00:00 - 00:01 in Video 2 */
+    .floating-card-3d-wrap.intro-swoop {
+      animation: cardSwoopIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardSwoopIn {
+      0% {
+        transform: rotateY(-38deg) rotateX(28deg) translateZ(-260px) translateY(-60px) scale(0.45);
+        opacity: 0.15;
+      }
+      60% {
+        transform: rotateY(-8deg) rotateX(3deg) translateZ(30px) translateY(-14px) scale(1.03);
+        opacity: 1;
+      }
+      100% {
+        transform: rotateY(-13deg) rotateX(6deg) translateY(-16px) scale(0.96);
+        opacity: 1;
+      }
+    }
+
+    /* Main Glassmorphic Neon Card */
+    .neon-music-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 1.05rem;
+      padding: 1rem 1.15rem 0.9rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(16, 16, 26, 0.72) 0%, rgba(6, 6, 12, 0.84) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.8px solid hsla(var(--neon-hue), 95%, 64%, 0.78);
+      box-shadow:
+        0 0 22px hsla(var(--neon-hue), 95%, 55%, 0.42),
+        inset 0 0 18px hsla(var(--neon-hue), 95%, 55%, 0.18);
+      align-items: center;
+    }
+
+    /* Top-Right "SIP 69 / XIOON 69" Metallic Outlined Watermark */
+    .card-top-badge {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.18);
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.65);
+      text-shadow: 0 0 8px hsla(var(--neon-hue), 95%, 65%, 0.6);
+      pointer-events: none;
+    }
+
+    /* Left Square Cover Art */
+    .card-cover-box {
+      width: 118px;
+      height: 118px;
+      border-radius: 9px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.75);
+      cursor: pointer;
+      background: #09090d;
+      flex-shrink: 0;
+    }
+
+    .card-cover-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .card-cover-box:hover img {
+      transform: scale(1.06);
+    }
+
+    .cover-change-hint {
+      position: absolute;
+      inset: auto 0 0 0;
+      background: rgba(0, 0, 0, 0.72);
+      color: #e4e4e7;
+      font-size: 0.56rem;
+      font-family: 'Space Grotesk', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 3px 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .card-cover-box:hover .cover-change-hint {
+      opacity: 1;
+    }
+
+    /* Right Track Details & Inner Spectrum */
+    .card-right-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      padding-top: 2px;
+    }
+
+    .card-song-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 54px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+    }
+
+    .card-song-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(244, 244, 245, 0.82);
+      margin-bottom: 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* White Vertical Bars Spectrum Inside Card */
+    #inner-spectrum-canvas {
+      width: 100%;
+      height: 36px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Progress Bar + Time Row */
+    .card-progress-wrap {
+      width: 100%;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-progress-track {
+      width: 100%;
+      height: 3.5px;
+      background: rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .card-progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 999px;
+      box-shadow: 0 0 8px #ffffff;
+      transition: width 0.08s linear;
+    }
+
+    .card-time-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #f4f4f5;
+    }
+
+    /* Media Controls Row Inside Card */
+    .card-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1px;
       position: relative;
     }
 
-    #audio-visualizer {
-      width: 100%;
-      height: 92px;
+    .card-ctrl-icons {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .ctrl-icon-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      padding: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.9;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .ctrl-icon-btn:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .ctrl-icon-btn.liked svg {
+      fill: #f43f5e;
+      stroke: #f43f5e;
+    }
+
+    .card-bottom-watermark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.88);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      text-shadow: 0 0 8px hsla(var(--neon-hue), 95%, 60%, 0.8);
+    }
+
+    /* Hanging Bottom Neon Wireframe Spectrum (Attached under Card Border) */
+    #under-card-spectrum {
+      width: 96%;
+      height: 28px;
       display: block;
+      margin: -1px auto 0;
+      pointer-events: none;
+      filter: drop-shadow(0 0 6px hsla(var(--neon-hue), 95%, 60%, 0.85));
+    }
+
+    /* 3D Glossy Floor Mirror Reflection (Bottom of Stage) */
+    .stage-floor-reflection {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 76px;
+      z-index: 3;
+      background: linear-gradient(180deg, rgba(2, 2, 5, 0.0) 0%, rgba(4, 4, 9, 0.82) 35%, rgba(2, 2, 4, 0.96) 100%);
+      border-top: 1px solid hsla(var(--neon-hue), 90%, 60%, 0.28);
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    #floor-reflection-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0.75;
+      filter: blur(1.2px);
     }
 
     .preset-chips {
@@ -883,7 +1130,7 @@
     }
 
     .luau-code-box {
-      margin-top: 1.2rem;
+      margin-top: 1.1rem;
       background: #060608;
       border: 1px solid rgba(82, 82, 91, 0.4);
       border-radius: 8px;
@@ -902,6 +1149,41 @@
       flex-wrap: wrap;
       gap: 0.75rem;
       margin-top: 1.35rem;
+    }
+
+    @media (max-width: 1024px) {
+      .navbar {
+        padding: 1rem 1.5rem;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 6.5rem 1.5rem 5rem;
+      }
+      .hero-stage-ui {
+        min-height: 320px;
+        align-items: flex-start;
+      }
+      .content-section {
+        padding: 4rem 1.5rem;
+      }
+      .audio-studio-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .neon-music-card {
+        grid-template-columns: 88px 1fr;
+        gap: 0.75rem;
+        padding: 0.8rem;
+      }
+      .card-cover-box {
+        width: 88px;
+        height: 88px;
+      }
+      .card-song-title {
+        font-size: 0.88rem;
+      }
     }
   </style>
 </head>
@@ -1051,7 +1333,7 @@
       </article>
     </div>
 
-    <!-- 04 / EDIT LAGU: ROBLOX AUDIO BYPASS & TEMPO STUDIO (INSPIRED BY CENZ STUDIO) -->
+    <!-- 04 / EDIT LAGU: ROBLOX AUDIO BYPASS & 3D NEON BREAKBEAT STAGE -->
     <div id="audio-studio" class="audio-studio-panel">
       <div class="studio-top-bar">
         <div>
@@ -1060,7 +1342,7 @@
             Konversi Tempo Cepat &amp; Anti-Ban Audio Roblox
           </h3>
           <p style="font-size: 0.88rem; color: #71717a; max-width: 680px;">
-            Ubah tempo lagu menjadi lebih cepat (Nightcore / Speed Bypass) + atur amplifikasi sebelum di-upload ke Roblox Creator Dashboard agar terhindar dari deteksi moderasi / ban hak cipta.
+            Ubah tempo lagu menjadi lebih cepat (Nightcore / Breakbeat Bypass) + atur amplifikasi sebelum di-upload ke Roblox Creator Dashboard agar terhindar dari deteksi moderasi / ban hak cipta.
           </p>
         </div>
         <div class="status-pill-safe" id="moderation-badge">
@@ -1070,28 +1352,116 @@
       </div>
 
       <div class="audio-studio-grid">
-        <!-- Left Column: Upload & Waveform Visualizer -->
+        <!-- Left Column: Upload + 3D Floating Neon Visualizer Stage (Video 2 Style) -->
         <div style="display: flex; flex-direction: column; justify-content: space-between;">
           <div>
+            <!-- Compact Upload Dropzone -->
             <div class="upload-dropzone" id="audio-dropzone">
               <input type="file" id="audio-file-input" accept="audio/*" />
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="1.8" style="margin-bottom: 0.75rem;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="1.8" style="flex-shrink: 0;">
                 <path d="M12 3v12M17 8l-5-5-5 5M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               </svg>
-              <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.92rem; color: #e4e4e7; margin-bottom: 0.3rem;" id="audio-filename">
-                Pilih atau Tarik File Lagu (MP3 / WAV / OGG)
-              </div>
-              <div style="font-size: 0.76rem; color: #71717a;" id="audio-fileinfo">
-                Atau klik tombol "Test Demo Beat" di bawah jika belum punya file lagu
+              <div style="text-align: left;">
+                <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.86rem; color: #e4e4e7;" id="audio-filename">
+                  Pilih / Tarik File Lagu (MP3 / WAV / OGG)
+                </div>
+                <div style="font-size: 0.72rem; color: #71717a;" id="audio-fileinfo">
+                  Atau klik tombol "▶ Preview Lagu" untuk memutar Breakbeat Remix
+                </div>
               </div>
             </div>
 
-            <div class="visualizer-box">
-              <div style="display: flex; justify-content: space-between; font-size: 0.68rem; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.12em; color: #71717a; margin-bottom: 0.4rem;">
-                <span>REAL-TIME FREQUENCY SPECTRUM</span>
-                <span id="audio-time-display">00:00 / 00:00</span>
+            <!-- Hidden Cover Photo Input (Click cover art inside 3D card to customize photo) -->
+            <input type="file" id="cover-file-input" accept="image/*" style="display: none;" />
+
+            <!-- 3D FLOATING NEON BREAKBEAT PLAYER STAGE (REPLACES OLD SPECTRUM BOX) -->
+            <div class="visualizer-stage" id="visualizer-stage">
+              <!-- Animated Neon Plasma Waves + Star Particles Canvas -->
+              <canvas id="stage-bg-canvas" width="640" height="360"></canvas>
+
+              <!-- 3D Tilted Floating Card Wrapper -->
+              <div class="floating-card-3d-wrap" id="floating-card-wrap">
+                <div class="neon-music-card" id="neon-music-card">
+                  <span class="card-top-badge">SIP 69</span>
+
+                  <!-- Left Album Cover Art (Click to change cover photo) -->
+                  <div class="card-cover-box" id="card-cover-trigger" title="Klik untuk ganti foto cover">
+                    <img id="card-cover-img" alt="Track Cover" src="" />
+                    <span class="cover-change-hint">Ganti Foto</span>
+                  </div>
+
+                  <!-- Right Track Info, White Bar Spectrum, Progress & Controls -->
+                  <div class="card-right-col">
+                    <div class="card-song-title" id="card-track-title">DESTINATION</div>
+                    <div class="card-song-sub" id="card-track-sub">BREAKBEAT REMIX</div>
+
+                    <!-- Inner White Vertical Spectrum Bars -->
+                    <canvas id="inner-spectrum-canvas" width="320" height="38"></canvas>
+
+                    <!-- Progress Bar & Timestamps -->
+                    <div class="card-progress-wrap">
+                      <div class="card-progress-track">
+                        <div class="card-progress-fill" id="card-progress-fill"></div>
+                      </div>
+                      <div class="card-time-row">
+                        <span id="card-time-cur">0:00</span>
+                        <span id="card-time-rem">2:08</span>
+                      </div>
+                    </div>
+
+                    <!-- Player Icons & Watermark -->
+                    <div class="card-controls-row">
+                      <div class="card-ctrl-icons">
+                        <!-- Heart Like Button -->
+                        <button type="button" class="ctrl-icon-btn liked" id="card-btn-like" aria-label="Like">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                          </svg>
+                        </button>
+                        <!-- Previous / Restart -->
+                        <button type="button" class="ctrl-icon-btn" id="card-btn-prev" aria-label="Restart">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                          </svg>
+                        </button>
+                        <!-- Play / Pause -->
+                        <button type="button" class="ctrl-icon-btn" id="card-btn-play" aria-label="Play or Pause">
+                          <svg id="card-play-svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </button>
+                        <!-- Next -->
+                        <button type="button" class="ctrl-icon-btn" id="card-btn-next" aria-label="Next">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                          </svg>
+                        </button>
+                        <!-- 3 Dots -->
+                        <button type="button" class="ctrl-icon-btn" aria-label="More">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div class="card-bottom-watermark">
+                        <span>XIOON MUSIC</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hanging Neon Spectrum Bars Underneath Card Border -->
+                <canvas id="under-card-spectrum" width="440" height="28"></canvas>
               </div>
-              <canvas id="audio-visualizer" width="520" height="92"></canvas>
+
+              <!-- Glossy Water/Mirror Floor Reflection -->
+              <div class="stage-floor-reflection">
+                <canvas id="floor-reflection-canvas" width="640" height="76"></canvas>
+              </div>
             </div>
           </div>
 
@@ -1192,10 +1562,12 @@
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
+    // ============================================================================
+    // 3D WEBGL HERO STAGE (XIOON TRIBAL METAL EMBLEM)
+    // ============================================================================
     (function () {
       const container = document.getElementById('webgl-container');
 
-      // 1. Scene, Fog & Camera
       const scene = new THREE.Scene();
       scene.fog = new THREE.FogExp2(0x050506, 0.038);
 
@@ -1207,7 +1579,6 @@
       );
       camera.position.set(0, 0.2, 16.5);
 
-      // 2. Renderer with Tone Mapping
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
@@ -1219,7 +1590,6 @@
       renderer.toneMappingExposure = 1.25;
       container.appendChild(renderer.domElement);
 
-      // 3. Procedural Monochrome Studio Environment Map (For Realistic Dark Chrome Reflections)
       function createStudioEnvMap() {
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         pmremGenerator.compileEquirectangularShader();
@@ -1231,13 +1601,11 @@
         const brightMat = new THREE.MeshBasicMaterial({ color: 0xd4d4d8, side: THREE.DoubleSide });
         const midMat = new THREE.MeshBasicMaterial({ color: 0x52525b, side: THREE.DoubleSide });
 
-        // Top softbox
         const topLight = new THREE.Mesh(stripGeo, brightMat);
         topLight.position.set(0, 12, 0);
         topLight.rotation.x = Math.PI / 2;
         envScene.add(topLight);
 
-        // Diagonal rim light strips
         const leftRim = new THREE.Mesh(stripGeo, brightMat);
         leftRim.position.set(-12, 5, 8);
         leftRim.lookAt(0, 0, 0);
@@ -1261,7 +1629,6 @@
       const envMap = createStudioEnvMap();
       scene.environment = envMap;
 
-      // 4. Studio Lighting (Monochrome Silver/Grey/Charcoal)
       const ambientLight = new THREE.AmbientLight(0x27272a, 1.1);
       scene.add(ambientLight);
 
@@ -1281,7 +1648,6 @@
       movingHighlight.position.set(2, 1, 6);
       scene.add(movingHighlight);
 
-      // 5. Materials for the 3D "XIOON" Tribal/Metal Emblem (Dark Grey / Gunmetal / Obsidian Chrome)
       const darkChromeMaterial = new THREE.MeshPhysicalMaterial({
         color: 0x27272a,
         metalness: 0.96,
@@ -1309,7 +1675,6 @@
         opacity: 0.28
       });
 
-      // 6. Main Stage Group (Positioned on Right Side on Desktop, Center on Mobile)
       const stageGroup = new THREE.Group();
       scene.add(stageGroup);
 
@@ -1327,7 +1692,6 @@
       }
       updateStageResponsivePosition();
 
-      // Extrude settings for razor-sharp 3D tribal metal look
       const extrudeSettings = {
         steps: 1,
         depth: 0.42,
@@ -1347,7 +1711,6 @@
         bevelSegments: 3
       };
 
-      // Helper to build a 3D mesh + subtle bevel edge highlight from a THREE.Shape
       const animatedPieces = [];
 
       function addTribalPiece(shape, config, xOffset, delayOrder, mat) {
@@ -1363,10 +1726,9 @@
         holder.position.set(xOffset.x, xOffset.y, xOffset.z || 0);
         holder.add(mesh);
 
-        // Store animation metadata for the video-inspired reveal
         holder.userData = {
           targetPos: holder.position.clone(),
-          delayOrder: delayOrder, // 0 = center, higher = further out
+          delayOrder: delayOrder,
           progress: 0
         };
 
@@ -1375,12 +1737,6 @@
         return holder;
       }
 
-      // ============================================================================
-      // BUILD 3D "X I O O N" TRIBAL / CYBERSIGILISM / DARK METAL GEOMETRY
-      // Inspired by the video: Central 4-pointed star + lower spike + sharp winged letters
-      // ============================================================================
-
-      // A. CENTRAL 4-POINTED STAR / CROSS (Top Center Emblem like Video 00:01 - 00:05)
       function createCenterStarShape() {
         const s = new THREE.Shape();
         s.moveTo(0, 1.35);
@@ -1398,7 +1754,6 @@
         gunmetalSpikeMaterial
       );
 
-      // B. CENTRAL LOWER DAGGER SPIKE (Below center like Video 00:03 - 00:05)
       function createCenterDaggerShape() {
         const s = new THREE.Shape();
         s.moveTo(0, 0.85);
@@ -1416,34 +1771,25 @@
         gunmetalSpikeMaterial
       );
 
-      // C. LETTER "X" (Left side: x = -3.7) — Aggressive crossed tribal blades + barbs
       function createLetterXShape() {
         const s = new THREE.Shape();
-        // Center-left hub of X
         s.moveTo(0, 0.35);
-        // Top-right horn of X
         s.quadraticCurveTo(0.45, 0.95, 1.15, 1.85);
         s.quadraticCurveTo(0.75, 0.85, 0.38, 0.05);
-        // Right middle barb
         s.lineTo(0.72, -0.15);
         s.lineTo(0.35, -0.32);
-        // Bottom-right blade of X
         s.quadraticCurveTo(0.68, -1.05, 1.12, -1.95);
         s.quadraticCurveTo(0.42, -1.15, 0, -0.42);
-        // Bottom-left long sweeping fang
         s.quadraticCurveTo(-0.48, -1.25, -1.35, -2.25);
         s.quadraticCurveTo(-0.82, -1.05, -0.42, -0.18);
-        // Left sharp tribal hook
         s.lineTo(-0.98, 0.08);
         s.lineTo(-0.44, 0.25);
-        // Top-left sweeping horn
         s.quadraticCurveTo(-0.78, 1.12, -1.42, 2.15);
         s.quadraticCurveTo(-0.48, 1.25, 0, 0.35);
         return s;
       }
       addTribalPiece(createLetterXShape(), extrudeSettings, { x: -3.65, y: 0.0, z: 0 }, 0.55);
 
-      // D. LETTER "I" (x = -1.95) — Razor gothic pillar with upper/lower thorns
       function createLetterIShape() {
         const s = new THREE.Shape();
         s.moveTo(0, 2.05);
@@ -1463,7 +1809,6 @@
       }
       addTribalPiece(createLetterIShape(), extrudeSettings, { x: -2.0, y: 0.05, z: 0.05 }, 0.35);
 
-      // E. FIRST & SECOND LETTER "O" (x = -0.68 and x = +0.68) — Spiked Cybersigilism Rings
       function createLetterOShape(mirror) {
         const dir = mirror ? -1 : 1;
         const s = new THREE.Shape();
@@ -1475,7 +1820,6 @@
         s.quadraticCurveTo(-0.52 * dir, -1.15, -0.68 * dir, -0.25);
         s.quadraticCurveTo(-0.52 * dir, 1.15, 0, 1.72);
 
-        // Inner diamond cutout hole
         const hole = new THREE.Path();
         hole.moveTo(0, 0.88);
         hole.lineTo(0.34 * dir, 0.0);
@@ -1488,30 +1832,24 @@
       addTribalPiece(createLetterOShape(false), extrudeSettings, { x: -0.72, y: -0.05, z: 0.08 }, 0.15);
       addTribalPiece(createLetterOShape(true), extrudeSettings, { x: 0.72, y: -0.05, z: 0.08 }, 0.15);
 
-      // F. LETTER "N" (Right side: x = +2.65) — Aggressive tribal N balancing X
       function createLetterNShape() {
         const s = new THREE.Shape();
-        // Left vertical blade of N
         s.moveTo(-0.95, -1.95);
         s.quadraticCurveTo(-0.78, -0.4, -0.92, 1.92);
         s.quadraticCurveTo(-0.42, 1.25, 0.35, -0.25);
-        // Right vertical blade of N
         s.quadraticCurveTo(0.28, 0.85, 0.65, 2.08);
         s.quadraticCurveTo(0.95, 0.4, 0.88, -0.15);
         s.lineTo(1.32, 0.12);
         s.lineTo(0.88, -0.48);
         s.quadraticCurveTo(1.05, -1.35, 1.38, -2.22);
         s.quadraticCurveTo(0.55, -1.25, 0.28, -0.58);
-        // Diagonal underside
         s.quadraticCurveTo(-0.35, 0.45, -0.58, 0.82);
         s.quadraticCurveTo(-0.52, -0.75, -0.95, -1.95);
         return s;
       }
       addTribalPiece(createLetterNShape(), extrudeSettings, { x: 2.55, y: 0.0, z: 0 }, 0.45);
 
-      // G. SYMMETRICAL OUTER TRIBAL WINGS & UPPER ARCH HORNS (Matches the silhouette in Video 00:02 - 00:05)
       function createOuterWingShape(side) {
-        // side: -1 for left wing, +1 for right wing
         const s = new THREE.Shape();
         s.moveTo(0, 0.85);
         s.quadraticCurveTo(side * 1.1, 1.65, side * 2.45, 2.35);
@@ -1526,7 +1864,6 @@
       addTribalPiece(createOuterWingShape(-1), thinSpikeExtrude, { x: -4.95, y: 0.15, z: -0.12 }, 0.75, gunmetalSpikeMaterial);
       addTribalPiece(createOuterWingShape(1), thinSpikeExtrude, { x: 4.35, y: 0.15, z: -0.12 }, 0.75, gunmetalSpikeMaterial);
 
-      // Upper sweeping tribal arch connecting the central star to left and right wings (like Video 00:02)
       function createUpperArchHorn(side) {
         const s = new THREE.Shape();
         s.moveTo(0, 0.25);
@@ -1538,9 +1875,6 @@
       addTribalPiece(createUpperArchHorn(-1), thinSpikeExtrude, { x: -1.65, y: 1.72, z: -0.08 }, 0.25, gunmetalSpikeMaterial);
       addTribalPiece(createUpperArchHorn(1), thinSpikeExtrude, { x: 1.65, y: 1.72, z: -0.08 }, 0.25, gunmetalSpikeMaterial);
 
-      // ============================================================================
-      // 7. SHOOTING STAR & CURVED TRAIL INTRO (Exact Choreography from Video 00:00 - 00:02)
-      // ============================================================================
       const introStarGroup = new THREE.Group();
       stageGroup.add(introStarGroup);
 
@@ -1558,7 +1892,6 @@
       const introStarMesh = new THREE.Mesh(starGeo, introStarMat);
       introStarGroup.add(introStarMesh);
 
-      // Curved comet arc path from right to center (like 00:00 in the video)
       const trailCurve = new THREE.QuadraticBezierCurve3(
         new THREE.Vector3(6.8, 1.3, 1.5),
         new THREE.Vector3(3.2, -1.35, 1.2),
@@ -1575,9 +1908,6 @@
       const trailLine = new THREE.Line(trailGeometry, trailMaterial);
       stageGroup.add(trailLine);
 
-      // ============================================================================
-      // 8. FINE MONOCHROME ASH PARTICLES IN STUDIO SPACE
-      // ============================================================================
       const particleCount = 420;
       const particleGeo = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
@@ -1600,9 +1930,6 @@
       const particleSystem = new THREE.Points(particleGeo, particleMat);
       scene.add(particleSystem);
 
-      // ============================================================================
-      // 9. INTERACTION (MOUSE PARALLAX & MODE SWITCHER)
-      // ============================================================================
       let targetMouseX = 0;
       let targetMouseY = 0;
       let currentMouseX = 0;
@@ -1613,7 +1940,6 @@
         targetMouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
       });
 
-      // Timeline Control for Video-Style Intro Animation
       let introStartTime = performance.now();
 
       function triggerIntroAnimation() {
@@ -1625,7 +1951,6 @@
 
       triggerIntroAnimation();
 
-      // UI Dock Buttons
       const btnReplay = document.getElementById('btn-replay-intro');
       const btnChrome = document.getElementById('btn-mode-chrome');
       const btnObsidian = document.getElementById('btn-mode-obsidian');
@@ -1669,9 +1994,6 @@
         edgeWireMaterial.opacity = 0.75;
       });
 
-      // ============================================================================
-      // 10. ANIMATION LOOP
-      // ============================================================================
       function easeOutBack(x) {
         const c1 = 1.70158;
         const c3 = c1 + 1;
@@ -1681,9 +2003,8 @@
       function animate(now) {
         requestAnimationFrame(animate);
 
-        const elapsed = (now - introStartTime) / 1000; // seconds since intro start
+        const elapsed = (now - introStartTime) / 1000;
 
-        // Phase 1 (0.0s -> 0.85s): Shooting 4-pointed star sweeps along curved arc (like Video 00:00 -> 00:01)
         if (elapsed < 0.85) {
           const t = Math.min(elapsed / 0.85, 1);
           const easedT = 1 - Math.pow(1 - t, 3);
@@ -1695,9 +2016,7 @@
 
           trailMaterial.opacity = Math.sin(t * Math.PI) * 0.75;
           trailGeometry.setDrawRange(0, Math.floor(easedT * 80));
-        }
-        // Phase 2 (0.85s -> 1.3s): Star locks at top-center and pulses before expanding tribal "XIOON"
-        else if (elapsed < 1.3) {
+        } else if (elapsed < 1.3) {
           const pulseT = (elapsed - 0.85) / 0.45;
           introStarGroup.position.set(0, 1.95, 0.35);
           const flare = 1 + Math.sin(pulseT * Math.PI) * 0.45;
@@ -1708,7 +2027,6 @@
           trailMaterial.opacity = 0;
         }
 
-        // Phase 3 (0.95s -> 2.8s): Tribal "XIOON" 3D pieces unfold outward from the center star (like Video 00:02 -> 00:05)
         animatedPieces.forEach((holder) => {
           const pieceStart = 0.92 + holder.userData.delayOrder * 0.95;
           const pieceDuration = 0.75;
@@ -1720,14 +2038,12 @@
           } else {
             const s = easeOutBack(p);
             holder.scale.set(s, s, s);
-            // Slight unfolding rotation from center
             holder.rotation.y = (1 - p) * (holder.userData.targetPos.x * 0.25);
             holder.position.x = holder.userData.targetPos.x * (0.35 + 0.65 * p);
             holder.position.y = holder.userData.targetPos.y * (0.5 + 0.5 * p);
           }
         });
 
-        // Smooth Mouse Parallax on 3D XIOON Emblem
         currentMouseX += (targetMouseX - currentMouseX) * 0.06;
         currentMouseY += (targetMouseY - currentMouseY) * 0.06;
 
@@ -1735,17 +2051,14 @@
         xioonGroup.rotation.x = -currentMouseY * 0.24 + Math.cos(now * 0.0005) * 0.05;
         xioonGroup.position.y = Math.sin(now * 0.0014) * 0.14;
 
-        // Subtle pulse on the top-center 4-pointed star
         if (elapsed > 1.3) {
           const starBreath = 1 + Math.sin(now * 0.003) * 0.06;
           centerStarHolder.scale.set(starBreath, starBreath, 1);
         }
 
-        // Orbiting Studio Specular Light for Metallic Sheen
         movingHighlight.position.x = Math.sin(now * 0.0012) * 7 + currentMouseX * 4;
         movingHighlight.position.y = Math.cos(now * 0.0009) * 4 + currentMouseY * 3;
 
-        // Drift Monochrome Ash Particles
         const posArr = particleGeo.attributes.position.array;
         for (let i = 0; i < particleCount; i++) {
           posArr[i * 3 + 1] += speeds[i];
@@ -1761,7 +2074,6 @@
 
       requestAnimationFrame(animate);
 
-      // Responsive Resize
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -1771,7 +2083,7 @@
     })();
 
     // ============================================================================
-    // 04 / EDIT LAGU — ROBLOX AUDIO SPEED & ANTI-BAN ENGINE (WEB AUDIO API)
+    // 04 / EDIT LAGU — 3D FLOATING NEON BREAKBEAT STAGE & WEB AUDIO ENGINE
     // ============================================================================
     (function () {
       let audioCtx = null;
@@ -1782,15 +2094,39 @@
       let analyserNode = null;
       let isPlaying = false;
       let startTime = 0;
-      let currentFileName = 'xioon_roblox_audio';
+      let pauseOffset = 0;
+      let currentFileName = 'DESTINATION';
 
       const fileInput = document.getElementById('audio-file-input');
       const dropzone = document.getElementById('audio-dropzone');
       const fileNameEl = document.getElementById('audio-filename');
       const fileInfoEl = document.getElementById('audio-fileinfo');
-      const timeDisplay = document.getElementById('audio-time-display');
-      const canvas = document.getElementById('audio-visualizer');
-      const ctx2d = canvas.getContext('2d');
+
+      // 3D Stage & Card Elements
+      const visualizerStage = document.getElementById('visualizer-stage');
+      const floatingCardWrap = document.getElementById('floating-card-wrap');
+      const stageBgCanvas = document.getElementById('stage-bg-canvas');
+      const bgCtx = stageBgCanvas.getContext('2d');
+      const innerSpecCanvas = document.getElementById('inner-spectrum-canvas');
+      const innerCtx = innerSpecCanvas.getContext('2d');
+      const underSpecCanvas = document.getElementById('under-card-spectrum');
+      const underCtx = underSpecCanvas.getContext('2d');
+      const floorCanvas = document.getElementById('floor-reflection-canvas');
+      const floorCtx = floorCanvas.getContext('2d');
+
+      const cardCoverTrigger = document.getElementById('card-cover-trigger');
+      const cardCoverImg = document.getElementById('card-cover-img');
+      const coverFileInput = document.getElementById('cover-file-input');
+      const cardTrackTitle = document.getElementById('card-track-title');
+      const cardTrackSub = document.getElementById('card-track-sub');
+      const cardProgressFill = document.getElementById('card-progress-fill');
+      const cardTimeCur = document.getElementById('card-time-cur');
+      const cardTimeRem = document.getElementById('card-time-rem');
+      const cardBtnPlay = document.getElementById('card-btn-play');
+      const cardPlaySvg = document.getElementById('card-play-svg');
+      const cardBtnPrev = document.getElementById('card-btn-prev');
+      const cardBtnNext = document.getElementById('card-btn-next');
+      const cardBtnLike = document.getElementById('card-btn-like');
 
       const sliderSpeed = document.getElementById('slider-speed');
       const sliderGain = document.getElementById('slider-gain');
@@ -1810,6 +2146,75 @@
       const btnExport = document.getElementById('btn-export-wav');
       const presetChips = document.querySelectorAll('.preset-chip');
 
+      // Generate Default Dark Aesthetic Sunglasses Portrait (Matches Video 2 Cover Art)
+      function createDefaultCoverArtDataURL() {
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+          <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1a1a24"/>
+              <stop offset="50%" stop-color="#0d0d14"/>
+              <stop offset="100%" stop-color="#050508"/>
+            </linearGradient>
+            <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e4d5cf"/>
+              <stop offset="100%" stop-color="#b89f96"/>
+            </linearGradient>
+            <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#27272a"/>
+              <stop offset="50%" stop-color="#09090b"/>
+              <stop offset="100%" stop-color="#18181b"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="300" fill="url(#bg)"/>
+          <!-- Subtle background bokeh -->
+          <circle cx="240" cy="60" r="45" fill="rgba(255,255,255,0.04)"/>
+          <circle cx="50" cy="220" r="65" fill="rgba(255,255,255,0.03)"/>
+          <!-- Dark Shoulder / Jacket -->
+          <path d="M20 300 C40 225 100 215 150 215 C200 215 260 225 280 300 Z" fill="#08080b"/>
+          <!-- Back Dark Long Hair -->
+          <path d="M55 95 C35 150 30 240 45 300 L255 300 C270 240 265 150 245 95 C225 40 185 28 150 28 C115 28 75 40 55 95 Z" fill="#0b0b0f"/>
+          <!-- Neck & Face -->
+          <rect x="130" y="185" width="40" height="50" rx="12" fill="url(#skin)"/>
+          <path d="M98 105 C98 165 120 202 150 205 C180 202 202 165 202 105 C202 68 180 52 150 52 C120 52 98 68 98 105 Z" fill="url(#skin)"/>
+          <!-- Soft Blush & Lips -->
+          <ellipse cx="118" cy="152" rx="14" ry="7" fill="rgba(225,110,120,0.28)"/>
+          <ellipse cx="182" cy="152" rx="14" ry="7" fill="rgba(225,110,120,0.28)"/>
+          <path d="M138 178 Q150 173 162 178 Q150 186 138 178 Z" fill="#a85862"/>
+          <!-- Retro Y2K Rectangular Dark Sunglasses (Tilted slightly) -->
+          <g transform="rotate(4 150 135)">
+            <rect x="92" y="120" width="52" height="27" rx="5" fill="url(#glass)" stroke="#d4d4d8" stroke-width="2"/>
+            <rect x="156" y="120" width="52" height="27" rx="5" fill="url(#glass)" stroke="#d4d4d8" stroke-width="2"/>
+            <line x1="144" y1="130" x2="156" y2="130" stroke="#d4d4d8" stroke-width="2.5"/>
+            <polygon points="98,123 114,123 104,144 95,144" fill="rgba(255,255,255,0.22)"/>
+            <polygon points="162,123 178,123 168,144 159,144" fill="rgba(255,255,255,0.22)"/>
+          </g>
+          <!-- Front Layered Dark Hair Strands -->
+          <path d="M95 55 C70 95 65 180 82 265 C90 200 94 140 112 95 C125 110 140 115 155 102 C172 118 188 135 198 185 C202 220 200 260 212 290 C232 215 232 115 205 55 C185 32 115 32 95 55 Z" fill="#09090d"/>
+        </svg>`;
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+      }
+
+      cardCoverImg.src = createDefaultCoverArtDataURL();
+
+      // Click cover art to upload custom photo
+      cardCoverTrigger.addEventListener('click', () => {
+        coverFileInput.click();
+      });
+
+      coverFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            cardCoverImg.src = ev.target.result;
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
+
+      cardBtnLike.addEventListener('click', () => {
+        cardBtnLike.classList.toggle('liked');
+      });
+
       function initAudioContext() {
         if (!audioCtx) {
           const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1820,11 +2225,21 @@
         }
       }
 
-      function formatTime(sec) {
-        if (!isFinite(sec) || sec < 0) return '00:00';
+      function formatShortTime(sec) {
+        if (!isFinite(sec) || sec < 0) return '0:00';
         const m = Math.floor(sec / 60);
         const s = Math.floor(sec % 60);
-        return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        return m + ':' + String(s).padStart(2, '0');
+      }
+
+      function updatePlayButtonsUI() {
+        if (isPlaying) {
+          playBtnText.textContent = '⏹ Stop Preview';
+          cardPlaySvg.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        } else {
+          playBtnText.textContent = '▶ Preview Lagu';
+          cardPlaySvg.innerHTML = '<path d="M8 5v14l11-7z"/>';
+        }
       }
 
       function updateModerationUI() {
@@ -1836,11 +2251,11 @@
         valGain.textContent = (gainDb >= 0 ? '+' : '') + gainDb.toFixed(1) + ' dB';
         valCut.textContent = cutHz + ' Hz';
 
-        // Calculate inverse PlaybackSpeed in Roblox Studio so song sounds normal speed in-game
+        cardTrackSub.textContent = `BREAKBEAT REMIX • ${speed.toFixed(2)}X`;
+
         const inverseSpeed = (1 / speed).toFixed(2);
         luauSnippet.textContent = `Sound.PlaybackSpeed = ${inverseSpeed} -- Normalisasikan tempo ${speed.toFixed(2)}x di Roblox`;
 
-        // Moderation status badge
         if (speed >= 1.25 || speed <= 0.85) {
           modDot.style.background = '#10b981';
           modDot.style.boxShadow = '0 0 10px #10b981';
@@ -1855,7 +2270,6 @@
           modText.textContent = `STATUS: RAWAN COPYRIGHT (${speed.toFixed(2)}x NORMAL)`;
         }
 
-        // Apply live parameters if playing
         if (isPlaying && sourceNode && audioCtx) {
           sourceNode.playbackRate.setValueAtTime(speed, audioCtx.currentTime);
           const linearGain = Math.pow(10, gainDb / 20);
@@ -1888,46 +2302,58 @@
         setTimeout(() => { btnCopyLuau.textContent = 'Copy Script'; }, 1600);
       });
 
-      // Generate procedural dark synth demo beat if user wants to test immediately
+      // Procedural High-Energy Breakbeat / Jedag-Jedug Demo Buffer (Matches Video 2 Vibe)
       function createDemoBeatBuffer() {
         initAudioContext();
         const sr = audioCtx.sampleRate;
-        const duration = 8; // 8-second loopable dark trap/phonk beat
+        const duration = 16;
         const buf = audioCtx.createBuffer(2, sr * duration, sr);
         const left = buf.getChannelData(0);
         const right = buf.getChannelData(1);
 
-        const bpm = 120;
+        const bpm = 132;
         const beatDur = 60 / bpm;
-        const notes = [110, 130.81, 146.83, 164.81, 146.83, 130.81, 98.0, 110]; // Phonk/Dark synth melody
+        const melodyNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 293.66, 349.23];
 
         for (let i = 0; i < buf.length; i++) {
           const t = i / sr;
-          const beatIdx = Math.floor(t / (beatDur / 2)) % notes.length;
+          const step = Math.floor(t / (beatDur / 2)) % melodyNotes.length;
           const localT = t % (beatDur / 2);
 
-          // Kick drum on every beat
-          const kickT = t % beatDur;
-          const kickFreq = 135 * Math.exp(-kickT * 28) + 42;
-          const kickEnv = Math.exp(-kickT * 9);
-          const kick = Math.sin(2 * Math.PI * kickFreq * kickT) * kickEnv * 0.65;
+          // Punchy Breakbeat Kick + Sub Bass
+          const kickCycle = t % beatDur;
+          const kickFreq = 155 * Math.exp(-kickCycle * 30) + 44;
+          const kickEnv = Math.exp(-kickCycle * 7.5);
+          const kick = Math.sin(2 * Math.PI * kickFreq * kickCycle) * kickEnv * 0.72;
 
-          // Hi-hat every 1/4 beat
-          const hatT = t % (beatDur / 4);
-          const hatEnv = Math.exp(-hatT * 48);
-          const hat = (Math.random() * 2 - 1) * hatEnv * 0.15;
+          // Off-beat Snare / Clap
+          const snareCycle = (t + beatDur / 2) % beatDur;
+          const snareEnv = Math.exp(-snareCycle * 22);
+          const snare = (Math.random() * 2 - 1) * snareEnv * 0.28;
 
-          // Dark metallic cowbell/synth lead
-          const freq = notes[beatIdx] * 2;
-          const synthEnv = Math.exp(-localT * 6.5);
-          const rawSaw = ((t * freq) % 1) * 2 - 1;
-          const lead = (Math.sin(2 * Math.PI * freq * t) * 0.6 + rawSaw * 0.4) * synthEnv * 0.35;
+          // Crisp 1/4 Hi-Hat
+          const hatCycle = t % (beatDur / 4);
+          const hatEnv = Math.exp(-hatCycle * 52);
+          const hat = (Math.random() * 2 - 1) * hatEnv * 0.16;
 
-          const sample = Math.max(-0.95, Math.min(0.95, kick + hat + lead));
-          left[i] = sample;
-          right[i] = sample * 0.98;
+          // Breakbeat Euro-Synth Lead
+          const freq = melodyNotes[step];
+          const synthEnv = Math.exp(-localT * 5.5);
+          const saw = ((t * freq) % 1) * 2 - 1;
+          const pulse = Math.sin(2 * Math.PI * freq * 2 * t) > 0 ? 0.5 : -0.5;
+          const lead = (saw * 0.55 + pulse * 0.45) * synthEnv * 0.34;
+
+          const out = Math.max(-0.96, Math.min(0.96, kick + snare + hat + lead));
+          left[i] = out;
+          right[i] = out * 0.98;
         }
         return buf;
+      }
+
+      function triggerCardSwoopIntro() {
+        floatingCardWrap.classList.remove('intro-swoop');
+        void floatingCardWrap.offsetWidth;
+        floatingCardWrap.classList.add('intro-swoop');
       }
 
       function stopAudio() {
@@ -1937,16 +2363,17 @@
           sourceNode = null;
         }
         isPlaying = false;
-        playBtnText.textContent = '▶ Preview Lagu';
+        updatePlayButtonsUI();
       }
 
-      function playAudio() {
+      function playAudio(triggerSwoop = true) {
         initAudioContext();
         if (!audioBuffer) {
           audioBuffer = createDemoBeatBuffer();
-          currentFileName = 'xioon_dark_phonk_demo';
-          fileNameEl.textContent = 'Demo: XIOON Dark Phonk Beat.wav';
-          fileInfoEl.textContent = 'Durasi Asli: 08.0s | Sample Rate: ' + audioCtx.sampleRate + ' Hz';
+          currentFileName = 'DESTINATION';
+          cardTrackTitle.textContent = 'DESTINATION';
+          fileNameEl.textContent = 'Demo: DESTINATION (Breakbeat Remix).wav';
+          fileInfoEl.textContent = 'Durasi Asli: 16.0s | Sample Rate: ' + audioCtx.sampleRate + ' Hz';
         }
 
         stopAudio();
@@ -1968,33 +2395,59 @@
         gainNode.gain.value = Math.pow(10, gainDb / 20);
 
         analyserNode = audioCtx.createAnalyser();
-        analyserNode.fftSize = 128;
+        analyserNode.fftSize = 256;
+        analyserNode.smoothingTimeConstant = 0.78;
 
         sourceNode.connect(filterNode);
         filterNode.connect(gainNode);
         gainNode.connect(analyserNode);
         analyserNode.connect(audioCtx.destination);
 
-        sourceNode.start(0);
-        startTime = audioCtx.currentTime;
+        sourceNode.start(0, pauseOffset % audioBuffer.duration);
+        startTime = audioCtx.currentTime - (pauseOffset / speed);
         isPlaying = true;
-        playBtnText.textContent = '⏹ Stop Preview';
+        updatePlayButtonsUI();
+
+        if (triggerSwoop) {
+          triggerCardSwoopIntro();
+        }
       }
 
-      btnPlay.addEventListener('click', () => {
+      function togglePlay() {
         if (isPlaying) {
+          if (audioCtx && audioBuffer) {
+            const speed = parseFloat(sliderSpeed.value);
+            pauseOffset = ((audioCtx.currentTime - startTime) * speed) % audioBuffer.duration;
+          }
           stopAudio();
         } else {
-          playAudio();
+          playAudio(true);
+        }
+      }
+
+      btnPlay.addEventListener('click', togglePlay);
+      cardBtnPlay.addEventListener('click', togglePlay);
+
+      cardBtnPrev.addEventListener('click', () => {
+        pauseOffset = 0;
+        if (isPlaying) playAudio(false);
+      });
+
+      cardBtnNext.addEventListener('click', () => {
+        if (audioBuffer) {
+          pauseOffset = (pauseOffset + audioBuffer.duration * 0.25) % audioBuffer.duration;
+          if (isPlaying) playAudio(false);
         }
       });
 
       btnDemo.addEventListener('click', () => {
         audioBuffer = createDemoBeatBuffer();
-        currentFileName = 'xioon_dark_phonk_demo';
-        fileNameEl.textContent = 'Demo: XIOON Dark Phonk Beat.wav';
-        fileInfoEl.textContent = 'Durasi Asli: 08.0s | Siap di-preview & download';
-        playAudio();
+        pauseOffset = 0;
+        currentFileName = 'DESTINATION';
+        cardTrackTitle.textContent = 'DESTINATION';
+        fileNameEl.textContent = 'Demo: DESTINATION (Breakbeat Remix).wav';
+        fileInfoEl.textContent = 'Durasi Asli: 16.0s | Siap di-preview & download';
+        playAudio(true);
       });
 
       // Handle User Audio Upload
@@ -2002,8 +2455,10 @@
         if (!file) return;
         initAudioContext();
         stopAudio();
+        pauseOffset = 0;
 
         currentFileName = file.name.replace(/\.[^/.]+$/, '');
+        cardTrackTitle.textContent = currentFileName.toUpperCase();
         fileNameEl.textContent = file.name;
         fileInfoEl.textContent = 'Memproses gelombang audio...';
 
@@ -2016,7 +2471,7 @@
               const speed = parseFloat(sliderSpeed.value);
               const newDur = (decoded.duration / speed).toFixed(1);
               fileInfoEl.textContent = `Durasi Asli: ${decoded.duration.toFixed(1)}s → Tempo Baru: ${newDur}s | Siap Preview`;
-              playAudio();
+              playAudio(true);
             },
             () => {
               fileInfoEl.textContent = 'Format file tidak didukung. Gunakan MP3, WAV, atau OGG.';
@@ -2047,11 +2502,11 @@
         }
       });
 
-      // Offline Render & WAV Export for Roblox Upload
+      // Offline Render & WAV Export
       function audioBufferToWavBlob(buffer) {
         const numCh = buffer.numberOfChannels;
         const sampleRate = buffer.sampleRate;
-        const format = 1; // PCM
+        const format = 1;
         const bitDepth = 16;
         const bytesPerSample = bitDepth / 8;
         const blockAlign = numCh * bytesPerSample;
@@ -2150,47 +2605,218 @@
         setTimeout(() => { btnExport.innerHTML = origText; }, 2200);
       });
 
-      // Visualizer Render Loop
-      const freqData = new Uint8Array(64);
-      function renderVisualizer() {
-        requestAnimationFrame(renderVisualizer);
-        ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+      // ==========================================================================
+      // REAL-TIME 3D STAGE RENDER LOOP (NEON PLASMA, DUAL SPECTRUM, FLOOR MIRROR)
+      // ==========================================================================
+      const freqData = new Uint8Array(128);
+      const starParticles = Array.from({ length: 42 }, () => ({
+        x: Math.random() * 640,
+        y: Math.random() * 300,
+        r: 0.8 + Math.random() * 1.8,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -0.25 - Math.random() * 0.55,
+        alpha: 0.35 + Math.random() * 0.65
+      }));
+
+      let currentHue = 225;
+
+      function renderStageLoop(now) {
+        requestAnimationFrame(renderStageLoop);
 
         const speed = parseFloat(sliderSpeed.value);
+        let bassEnergy = 0;
+
         if (isPlaying && analyserNode && audioBuffer) {
           analyserNode.getByteFrequencyData(freqData);
+
+          // Compute low-end bass energy for 3D card beat shake & neon pulse
+          let bassSum = 0;
+          for (let i = 0; i < 10; i++) {
+            bassSum += freqData[i];
+          }
+          bassEnergy = (bassSum / (10 * 255));
+
+          // Update progress bar & timestamps
           const effectiveDur = audioBuffer.duration / speed;
           const cur = (audioCtx.currentTime - startTime) % effectiveDur;
-          timeDisplay.textContent = `${formatTime(cur)} / ${formatTime(effectiveDur)} (${speed.toFixed(2)}x)`;
+          const rem = Math.max(0, effectiveDur - cur);
+          const pct = Math.min(100, (cur / effectiveDur) * 100);
+
+          cardProgressFill.style.width = pct.toFixed(1) + '%';
+          cardTimeCur.textContent = formatShortTime(cur);
+          cardTimeRem.textContent = formatShortTime(rem);
+
+          // Cycle neon hue smoothly like Video 2 (Blue -> Purple -> Red -> Orange -> Green -> Cyan)
+          currentHue = (215 + now * 0.028 + bassEnergy * 35) % 360;
         } else {
-          for (let i = 0; i < freqData.length; i++) {
-            freqData[i] = 10 + Math.sin(performance.now() * 0.003 + i * 0.35) * 6;
+          // Gentle idle breathing spectrum when paused
+          for (let i = 0; i < 64; i++) {
+            freqData[i] = 14 + Math.sin(now * 0.004 + i * 0.32) * 8;
           }
+          currentHue = (215 + now * 0.008) % 360;
         }
 
-        const barCount = 44;
-        const gap = 4;
-        const barWidth = (canvas.width - gap * (barCount - 1)) / barCount;
+        visualizerStage.style.setProperty('--neon-hue', currentHue.toFixed(0));
 
-        for (let i = 0; i < barCount; i++) {
-          const val = freqData[i] || 8;
+        // 3D Card Beat-Reactive Tilt & Shake
+        if (!floatingCardWrap.classList.contains('intro-swoop')) {
+          const floatY = -16 + Math.sin(now * 0.0032) * 4 - bassEnergy * 7;
+          const rotY = -13 + Math.cos(now * 0.0022) * 2.2 + (bassEnergy > 0.62 ? (Math.random() - 0.5) * 2.5 : 0);
+          const rotX = 6 + Math.sin(now * 0.0027) * 1.6 + bassEnergy * 3.5;
+          const scale = 0.96 + bassEnergy * 0.045;
+          floatingCardWrap.style.transform = `rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) translateY(${floatY.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+        }
+
+        // 1. RENDER NEON PLASMA WAVES & FLOATING PARTICLES BACKGROUND
+        const bw = stageBgCanvas.width;
+        const bh = stageBgCanvas.height;
+        bgCtx.fillStyle = '#020205';
+        bgCtx.fillRect(0, 0, bw, bh);
+
+        // Ambient neon radial clouds
+        const grad1 = bgCtx.createRadialGradient(
+          bw * (0.35 + Math.sin(now * 0.001) * 0.15),
+          bh * (0.42 + Math.cos(now * 0.0013) * 0.12),
+          10,
+          bw * 0.45,
+          bh * 0.45,
+          bw * (0.55 + bassEnergy * 0.2)
+        );
+        grad1.addColorStop(0, `hsla(${currentHue}, 95%, 52%, ${0.28 + bassEnergy * 0.26})`);
+        grad1.addColorStop(0.5, `hsla(${(currentHue + 28) % 360}, 90%, 35%, 0.14)`);
+        grad1.addColorStop(1, 'rgba(2, 2, 5, 0)');
+        bgCtx.fillStyle = grad1;
+        bgCtx.fillRect(0, 0, bw, bh);
+
+        // Flowing electric plasma ribbons (like Video 2 background)
+        bgCtx.save();
+        for (let w = 0; w < 4; w++) {
+          bgCtx.beginPath();
+          const waveHue = (currentHue + w * 18) % 360;
+          bgCtx.strokeStyle = `hsla(${waveHue}, 95%, 62%, ${0.18 + bassEnergy * 0.22})`;
+          bgCtx.lineWidth = 2.5 + w * 1.2;
+          for (let x = 0; x <= bw; x += 16) {
+            const y =
+              bh * 0.44 +
+              Math.sin(x * 0.012 + now * 0.0024 + w * 1.3) * (34 + bassEnergy * 42) +
+              Math.cos(x * 0.022 - now * 0.0018 + w) * 20;
+            if (x === 0) bgCtx.moveTo(x, y);
+            else bgCtx.lineTo(x, y);
+          }
+          bgCtx.stroke();
+        }
+        bgCtx.restore();
+
+        // Floating glowing particles
+        starParticles.forEach((p) => {
+          p.x += p.vx * (1 + bassEnergy * 2.5);
+          p.y += p.vy * (1 + bassEnergy * 2.5);
+          if (p.y < 0) p.y = bh - 70;
+          if (p.x < 0) p.x = bw;
+          if (p.x > bw) p.x = 0;
+
+          bgCtx.beginPath();
+          bgCtx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+          bgCtx.arc(p.x, p.y, p.r + bassEnergy * 1.1, 0, Math.PI * 2);
+          bgCtx.fill();
+        });
+
+        // 2. RENDER INNER WHITE ROUNDED VERTICAL SPECTRUM BARS (INSIDE CARD)
+        const iw = innerSpecCanvas.width;
+        const ih = innerSpecCanvas.height;
+        innerCtx.clearRect(0, 0, iw, ih);
+
+        const innerBars = 38;
+        const innerGap = 3.5;
+        const innerBarW = (iw - innerGap * (innerBars - 1)) / innerBars;
+
+        for (let i = 0; i < innerBars; i++) {
+          const val = freqData[i + 2] || 10;
           const pct = val / 255;
-          const barHeight = Math.max(4, pct * (canvas.height - 8));
-          const x = i * (barWidth + gap);
-          const y = canvas.height - barHeight;
+          const h = Math.max(3, pct * (ih - 2));
+          const x = i * (innerBarW + innerGap);
+          const y = ih - h;
 
-          const grad = ctx2d.createLinearGradient(0, y, 0, canvas.height);
-          grad.addColorStop(0, '#e4e4e7');
-          grad.addColorStop(0.55, '#71717a');
-          grad.addColorStop(1, '#27272a');
+          innerCtx.fillStyle = '#ffffff';
+          innerCtx.beginPath();
+          if (innerCtx.roundRect) {
+            innerCtx.roundRect(x, y, innerBarW, h, 2);
+          } else {
+            innerCtx.rect(x, y, innerBarW, h);
+          }
+          innerCtx.fill();
+        }
 
-          ctx2d.fillStyle = grad;
-          ctx2d.fillRect(x, y, barWidth, barHeight);
+        // 3. RENDER HANGING NEON WIREFRAME SPECTRUM UNDER CARD BORDER
+        const uw = underSpecCanvas.width;
+        const uh = underSpecCanvas.height;
+        underCtx.clearRect(0, 0, uw, uh);
+
+        const underBars = 56;
+        const stepX = uw / underBars;
+        underCtx.beginPath();
+        underCtx.strokeStyle = `hsla(${currentHue}, 95%, 66%, 0.92)`;
+        underCtx.lineWidth = 1.6;
+
+        for (let i = 0; i < underBars; i++) {
+          const val = freqData[i % 48] || 8;
+          const h = Math.max(2, (val / 255) * (uh - 3));
+          const x = i * stepX + stepX * 0.5;
+          underCtx.moveTo(x, 0);
+          underCtx.lineTo(x, h);
+        }
+        underCtx.stroke();
+
+        // 4. RENDER GLOSSY 3D FLOOR MIRROR REFLECTION
+        const fw = floorCanvas.width;
+        const fh = floorCanvas.height;
+        floorCtx.clearRect(0, 0, fw, fh);
+
+        // Reflected neon glow pool on the floor
+        const floorGrad = floorCtx.createRadialGradient(
+          fw * 0.5,
+          8,
+          10,
+          fw * 0.5,
+          fh * 0.6,
+          fw * 0.44
+        );
+        floorGrad.addColorStop(0, `hsla(${currentHue}, 95%, 58%, ${0.38 + bassEnergy * 0.25})`);
+        floorGrad.addColorStop(0.6, `hsla(${currentHue}, 90%, 35%, 0.14)`);
+        floorGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        floorCtx.fillStyle = floorGrad;
+        floorCtx.fillRect(0, 0, fw, fh);
+
+        // Mirrored spectrum bars & card silhouette ripples on water floor
+        const reflectStartX = fw * 0.16;
+        const reflectWidth = fw * 0.68;
+        const rBars = 46;
+        const rStep = reflectWidth / rBars;
+
+        for (let i = 0; i < rBars; i++) {
+          const val = freqData[i % 40] || 10;
+          const rh = Math.max(3, (val / 255) * 34);
+          const rx = reflectStartX + i * rStep;
+          const rippleOffset = Math.sin(now * 0.008 + i * 0.5) * 2.5;
+
+          floorCtx.fillStyle = `hsla(${currentHue}, 95%, 70%, 0.35)`;
+          floorCtx.fillRect(rx + rippleOffset, 4, rStep * 0.55, rh);
+        }
+
+        // Horizontal water ripple scanlines
+        floorCtx.fillStyle = 'rgba(2, 2, 5, 0.38)';
+        for (let y = 0; y < fh; y += 4) {
+          floorCtx.fillRect(0, y, fw, 1.5);
         }
       }
 
+      // Remove intro-swoop class once animation finishes so live bass-tilt takes over smoothly
+      floatingCardWrap.addEventListener('animationend', () => {
+        floatingCardWrap.classList.remove('intro-swoop');
+      });
+
       updateModerationUI();
-      renderVisualizer();
+      requestAnimationFrame(renderStageLoop);
     })();
   </script>
 </body>
