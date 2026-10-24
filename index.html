@@ -1145,6 +1145,26 @@
             <input type="range" id="slider-cut" class="studio-slider" min="0" max="250" step="5" value="85" />
           </div>
 
+          <!-- Strict < 20 MB Roblox File Size Limiter Indicator -->
+          <div class="control-group" style="border-color: rgba(16, 185, 129, 0.32); background: rgba(12, 18, 16, 0.78);">
+            <div class="control-label-row" style="margin-bottom: 0.4rem;">
+              <span style="display: flex; align-items: center; gap: 0.45rem; color: #d4d4d8;">
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block; box-shadow: 0 0 8px #10b981;"></span>
+                Proteksi Ukuran File (&lt; 20 MB)
+              </span>
+              <span class="control-val" id="val-filesize" style="background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35);">
+                ~2.68 MB / 20 MB
+              </span>
+            </div>
+            <div style="width: 100%; height: 5px; background: #18181b; border-radius: 4px; overflow: hidden; margin-bottom: 0.45rem;">
+              <div id="filesize-bar" style="width: 14%; height: 100%; background: linear-gradient(90deg, #10b981, #a1a1aa); border-radius: 4px; transition: width 0.25s ease;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #8e8e96;" id="filesize-detail">
+              <span>Auto-Compress Aktif: Maksimal &lt; 19.5 MB</span>
+              <span id="filesize-quality">44.1 kHz • 16-Bit WAV</span>
+            </div>
+          </div>
+
           <!-- Action Buttons -->
           <div class="studio-action-row">
             <button type="button" class="btn-primary" id="btn-play-audio" style="padding: 0.85rem 1.35rem; font-size: 0.78rem;">
@@ -1154,7 +1174,7 @@
               <span>♫ Test Demo Beat</span>
             </button>
             <button type="button" class="btn-primary" id="btn-export-wav" style="padding: 0.85rem 1.35rem; font-size: 0.78rem;">
-              <span>⬇ Download Audio (.WAV)</span>
+              <span>⬇ Download Audio (&lt; 20MB .WAV)</span>
             </button>
             <a href="https://create.roblox.com/dashboard/creations?activeTab=Audio" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 0.85rem 1.15rem; font-size: 0.76rem;">
               <span>Upload ke Roblox ↗</span>
@@ -1810,6 +1830,84 @@
       const btnExport = document.getElementById('btn-export-wav');
       const presetChips = document.querySelectorAll('.preset-chip');
 
+      const valFilesize = document.getElementById('val-filesize');
+      const filesizeBar = document.getElementById('filesize-bar');
+      const filesizeQuality = document.getElementById('filesize-quality');
+
+      // Strict < 20 MB limit (19.5 MB decimal / ~18.60 MiB binary — 100% di bawah 20 MB)
+      const MAX_ROBLOX_BYTES = 19500000;
+
+      function getOptimalExportProfile(effectiveDurSec, origChannels, origSampleRate) {
+        const maxDataBytes = MAX_ROBLOX_BYTES - 44;
+        const maxCh = Math.min(2, origChannels || 2);
+        const baseSr = Math.min(44100, origSampleRate || 44100);
+
+        const candidates = [
+          [baseSr, maxCh],
+          [32000, maxCh],
+          [24000, maxCh],
+          [22050, maxCh],
+          [32000, 1],
+          [24000, 1],
+          [22050, 1],
+          [16000, 1],
+          [12000, 1],
+          [8000, 1]
+        ];
+
+        for (let i = 0; i < candidates.length; i++) {
+          const sr = candidates[i][0];
+          const ch = candidates[i][1];
+          const frames = Math.max(1, Math.ceil(effectiveDurSec * sr));
+          const dataBytes = frames * ch * 2; // 16-bit PCM = 2 bytes per sample
+          if (dataBytes <= maxDataBytes) {
+            return {
+              sampleRate: sr,
+              channels: ch,
+              frames: frames,
+              estimatedBytes: 44 + dataBytes,
+              trimmed: false
+            };
+          }
+        }
+
+        // Jika durasi lagu sangat panjang, batasi jumlah frame agar tetap <= MAX_ROBLOX_BYTES (< 20 MB)
+        const fallbackSr = 8000;
+        const fallbackCh = 1;
+        const maxFrames = Math.floor(maxDataBytes / (fallbackCh * 2));
+        return {
+          sampleRate: fallbackSr,
+          channels: fallbackCh,
+          frames: maxFrames,
+          estimatedBytes: 44 + maxFrames * fallbackCh * 2,
+          trimmed: true
+        };
+      }
+
+      function updateFileSizeEstimate() {
+        const speed = parseFloat(sliderSpeed.value) || 1.35;
+        const origDur = audioBuffer ? audioBuffer.duration : 8.0;
+        const origCh = audioBuffer ? audioBuffer.numberOfChannels : 2;
+        const origSr = audioBuffer ? audioBuffer.sampleRate : 44100;
+        const effectiveDur = origDur / speed;
+
+        const profile = getOptimalExportProfile(effectiveDur, origCh, origSr);
+        const sizeMB = profile.estimatedBytes / (1024 * 1024);
+        const pct = Math.min(98, Math.max(4, (sizeMB / 20) * 100));
+
+        if (valFilesize) {
+          valFilesize.textContent = `~${sizeMB.toFixed(2)} MB / < 20 MB`;
+        }
+        if (filesizeBar) {
+          filesizeBar.style.width = `${pct.toFixed(1)}%`;
+        }
+        if (filesizeQuality) {
+          const srKhz = (profile.sampleRate / 1000).toFixed(1).replace('.0', '');
+          const chLabel = profile.channels === 2 ? 'Stereo' : 'Mono';
+          filesizeQuality.textContent = `${srKhz} kHz • ${chLabel} • 16-Bit WAV (< 20MB)`;
+        }
+      }
+
       function initAudioContext() {
         if (!audioCtx) {
           const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1862,6 +1960,8 @@
           gainNode.gain.setValueAtTime(linearGain, audioCtx.currentTime);
           filterNode.frequency.setValueAtTime(cutHz, audioCtx.currentTime);
         }
+
+        updateFileSizeEstimate();
       }
 
       sliderSpeed.addEventListener('input', () => {
@@ -2015,7 +2115,10 @@
               audioBuffer = decoded;
               const speed = parseFloat(sliderSpeed.value);
               const newDur = (decoded.duration / speed).toFixed(1);
-              fileInfoEl.textContent = `Durasi Asli: ${decoded.duration.toFixed(1)}s → Tempo Baru: ${newDur}s | Siap Preview`;
+              updateFileSizeEstimate();
+              const profile = getOptimalExportProfile(decoded.duration / speed, decoded.numberOfChannels, decoded.sampleRate);
+              const estMB = (profile.estimatedBytes / (1024 * 1024)).toFixed(2);
+              fileInfoEl.textContent = `Durasi: ${decoded.duration.toFixed(1)}s → Tempo: ${newDur}s | Estimasi File: ~${estMB} MB (< 20 MB)`;
               playAudio();
             },
             () => {
@@ -2047,7 +2150,7 @@
         }
       });
 
-      // Offline Render & WAV Export for Roblox Upload
+      // Offline Render & WAV Export for Roblox Upload (Guaranteed < 20 MB)
       function audioBufferToWavBlob(buffer) {
         const numCh = buffer.numberOfChannels;
         const sampleRate = buffer.sampleRate;
@@ -2055,7 +2158,12 @@
         const bitDepth = 16;
         const bytesPerSample = bitDepth / 8;
         const blockAlign = numCh * bytesPerSample;
-        const dataLen = buffer.length * blockAlign;
+
+        // Hard safety cap so total WAV file size NEVER exceeds MAX_ROBLOX_BYTES (< 20 MB)
+        const maxAllowedFrames = Math.floor((MAX_ROBLOX_BYTES - 44) / blockAlign);
+        const frameCount = Math.min(buffer.length, maxAllowedFrames);
+
+        const dataLen = frameCount * blockAlign;
         const bufferLen = 44 + dataLen;
         const arrayBuffer = new ArrayBuffer(bufferLen);
         const view = new DataView(arrayBuffer);
@@ -2086,7 +2194,7 @@
         }
 
         let offset = 44;
-        for (let i = 0; i < buffer.length; i++) {
+        for (let i = 0; i < frameCount; i++) {
           for (let c = 0; c < numCh; c++) {
             let sample = Math.max(-1, Math.min(1, channels[c][i]));
             sample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
@@ -2109,13 +2217,19 @@
         const cutHz = parseInt(sliderCut.value, 10);
 
         const origText = btnExport.innerHTML;
-        btnExport.innerHTML = '<span>⏳ Merender Audio...</span>';
+        btnExport.innerHTML = '<span>⏳ Kompresi &amp; Render (&lt;20MB)...</span>';
 
-        const newLength = Math.max(1, Math.floor(audioBuffer.length / speed));
-        const offlineCtx = new OfflineAudioContext(
+        const effectiveDur = audioBuffer.duration / speed;
+        const profile = getOptimalExportProfile(
+          effectiveDur,
           audioBuffer.numberOfChannels,
-          newLength,
           audioBuffer.sampleRate
+        );
+
+        const offlineCtx = new OfflineAudioContext(
+          profile.channels,
+          profile.frames,
+          profile.sampleRate
         );
 
         const offSource = offlineCtx.createBufferSource();
@@ -2136,6 +2250,7 @@
 
         const renderedBuffer = await offlineCtx.startRendering();
         const wavBlob = audioBufferToWavBlob(renderedBuffer);
+        const finalSizeMB = (wavBlob.size / (1024 * 1024)).toFixed(2);
         const url = URL.createObjectURL(wavBlob);
 
         const a = document.createElement('a');
@@ -2146,8 +2261,11 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        btnExport.innerHTML = '<span>✔ Berhasil Diunduh!</span>';
-        setTimeout(() => { btnExport.innerHTML = origText; }, 2200);
+        if (valFilesize) {
+          valFilesize.textContent = `${finalSizeMB} MB (< 20 MB ✔)`;
+        }
+        btnExport.innerHTML = `<span>✔ Terunduh (${finalSizeMB} MB &lt; 20MB)!</span>`;
+        setTimeout(() => { btnExport.innerHTML = origText; }, 2800);
       });
 
       // Visualizer Render Loop
